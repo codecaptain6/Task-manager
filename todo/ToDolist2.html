@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager with History</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f4f8;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #3498db;
+            text-align: center;
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        input[type="text"], input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+        .delete, .complete {
+            background-color: #e74c3c;
+            margin-right: 5px;
+        }
+        .complete {
+            background-color: #2ecc71;
+        }
+        .history-box {
+            display: none;
+            background-color: #ecf0f1;
+            border: 1px solid #bdc3c7;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .history-box h2 {
+            color: #3498db;
+            margin-top: 0;
+        }
+        .restore {
+            background-color: #f39c12;
+        }
+        .clear-history {
+            background-color: #95a5a6;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Task Manager</h1>
+        <div class="input-group">
+            <input type="text" id="inputname" placeholder="Enter task name">
+            <input type="date" id="inputdate">
+            <button class="add">Add Task</button>
+            <button class="view-history">View History</button>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Task</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="taskList"></tbody>
+        </table>
+        <div class="history-box">
+            <h2>Task History</h2>
+            <table id="historyList"></table>
+            <button class="clear-history">Clear History</button>
+        </div>
+    </div>
+
+    <script>
+        const inputName = document.getElementById('inputname');
+        const inputDate = document.getElementById('inputdate');
+        const addButton = document.querySelector('.add');
+        const viewHistoryButton = document.querySelector('.view-history');
+        const taskList = document.getElementById('taskList');
+        const historyList = document.getElementById('historyList');
+        const historyBox = document.querySelector('.history-box');
+        const clearHistoryButton = document.querySelector('.clear-history');
+
+        let tasks = [];
+        let history = [];
+
+        function addTask() {
+            const name = inputName.value.trim();
+            const date = inputDate.value;
+            if (name && date) {
+                tasks.push({ name, date });
+                renderTasks();
+                inputName.value = '';
+                inputDate.value = '';
+            }
+        }
+
+        function renderTasks() {
+            taskList.innerHTML = tasks.map((task, index) => `
+                <tr>
+                    <td>${task.name}</td>
+                    <td>${task.date}</td>
+                    <td>
+                        <button class="delete" data-index="${index}">Delete</button>
+                        <button class="complete" data-index="${index}">Complete</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function renderHistory() {
+            historyList.innerHTML = history.map((task, index) => `
+                <tr>
+                    <td>${task.name}</td>
+                    <td>${task.date}</td>
+                    <td>
+                        <button class="restore" data-index="${index}">Restore</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        addButton.addEventListener('click', addTask);
+
+        viewHistoryButton.addEventListener('click', () => {
+            historyBox.style.display = historyBox.style.display === 'none' ? 'block' : 'none';
+            renderHistory();
+        });
+
+        taskList.addEventListener('click', (e) => {
+            if (e.target.classList.contains('delete')) {
+                const index = e.target.dataset.index;
+                history.push(tasks[index]);
+                tasks.splice(index, 1);
+                renderTasks();
+            } else if (e.target.classList.contains('complete')) {
+                const row = e.target.closest('tr');
+                row.style.textDecoration = 'line-through';
+            }
+        });
+
+        historyList.addEventListener('click', (e) => {
+            if (e.target.classList.contains('restore')) {
+                const index = e.target.dataset.index;
+                tasks.push(history[index]);
+                history.splice(index, 1);
+                renderTasks();
+                renderHistory();
+            }
+        });
+
+        clearHistoryButton.addEventListener('click', () => {
+            history = [];
+            renderHistory();
+        });
+
+        renderTasks();
+    </script>
+</body>
+</html>

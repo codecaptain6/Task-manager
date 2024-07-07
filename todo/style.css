@@ -1,0 +1,166 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #f0f0f0;
+}
+main {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+.container {
+  width: 600px;
+  padding: 20px;
+  background-color: #ffff;
+  border-radius: 10px;
+}
+.container h1 {
+  text-align: center;
+  margin: 20px 0;
+}
+.line {
+  width: 100%;
+  border: 1px solid #ccc;
+  overflow: hidden;
+  margin: 10px 0;
+  
+}
+.innerline {
+  width: 20px;
+  border: 1px solid #8a2be2;
+  border-radius: 20px;
+  animation: name 3s ease infinite;
+  position: relative;
+}
+
+@keyframes name {
+  from {
+    left: 0%;
+  }
+  to {
+    left: 100%;
+  }
+}
+.input-section {
+  display: flex;
+  gap: 5px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.input-section > div {
+  margin: 17px 0px;
+
+}
+.input-section input {
+  width: 200px;
+  border-radius: 5px;
+  padding: 7px;
+  border: 1px solid rgb(84, 253, 84);
+}
+
+.input-section input:focus {
+  border: 1px solid #8a2be2;
+  outline: 0;
+}
+.input-section > div button {
+  padding: 7px;
+  border: 0;
+  background-color: #8a2be2;
+  color: white;
+  border-radius: 5px;
+}
+.table table {
+  width: 100%;
+}
+.table table tr td {
+  padding: 10px;
+  text-align: center;
+  border: 0;
+}
+.table table tr:nth-child(odd) {
+  background-color: #f5f5f5;
+}
+.history {
+text-align: center;
+margin: 20px 0;
+cursor: pointer;
+}
+.history button {
+    padding: 7px;
+    border: 0;
+    background-color: #8a2be2;
+    color: white;
+    border-radius: 5px;
+}
+.history-box {
+  width: 640px;
+  background-color: #ada3b6;
+  height: 300px;
+  border: 1px solid #ccc;
+  position: absolute;
+  transform: scale(0);
+  transition: .5s transform ease-in;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.history-item {
+  background-color: #ffffff;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-top: 100px;
+}
+
+.history-item span {
+  margin-right: 10px;
+}
+
+.history-item .restore {
+  background-color: #8a2be2;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.history-item .restore:hover {
+  background-color: #7a1fd0;
+}
+
+
+
+
+
+#cancel{
+    position: absolute;
+    right: 0;
+    padding: 15px;
+    font-size: 30px;
+
+}
+@media (max-width:768px){
+    .input-section >div{
+        width: 100%;
+    }
+    .input-section input{
+        width: 100%;
+    }
+    .input-section button{
+        width: 100%;
+    } 
+    .history-box{
+        max-width: 300px;
+        min-width: 300px;
+    } 
+}
